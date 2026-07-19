@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ineficiencia, Captura y Reformismo — Resumen Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Inter+Tight:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F8F6F2;
+    --ink:#121212;
+    --accent:#FF4A2F;
+    --grey:#CFCFCF;
+    --grey-line: rgba(18,18,18,0.12);
+    --font: 'Inter', -apple-system, sans-serif;
+    --font-tight: 'Inter Tight', 'Inter', sans-serif;
+    --mono-track: 0.14em;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font);
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  ::selection{ background:var(--accent); color:var(--bg); }
+
+  /* ---------- GRID SYSTEM ---------- */
+  .sheet{
+    position:relative;
+    width:100%;
+    min-height:100vh;
+    padding: clamp(28px,5vw,64px) clamp(20px,6vw,72px);
+    display:grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: clamp(10px,1.4vw,20px);
+    border-bottom:1px solid var(--grey-line);
+  }
+  .sheet.center{ align-content:center; }
+  .sheet.dark{ background:var(--ink); color:var(--bg); }
+  .sheet.dark .hairline{ background:rgba(248,246,242,0.18); }
+  .sheet.dark .eyebrow{ color:rgba(248,246,242,0.55); }
+  .sheet.accent{ background:var(--accent); color:var(--bg); }
+  .sheet.accent .eyebrow{ color:rgba(248,246,242,0.75); }
+  .sheet.accent .hairline{ background:rgba(248,246,242,0.35); }
+
+  .full{ grid-column: 1 / -1; }
+  .span-8{ grid-column: span 8; }
+  .span-7{ grid-column: span 7; }
+  .span-6{ grid-column: span 6; }
+  .span-5{ grid-column: span 5; }
+  .span-4{ grid-column: span 4; }
+  .span-3{ grid-column: span 3; }
+
+  @media (max-width: 860px){
+    .span-8,.span-7,.span-6,.span-5,.span-4,.span-3{ grid-column: 1 / -1; }
+    .sheet > *{ grid-column: 1 / -1 !important; }
+    .vline{ display:none; }
+    .index-num{ font-size:clamp(48px,16vw,72px); }
+  }
+
+  /* ---------- TYPE SCALE ---------- */
+  .eyebrow{
+    font-family:var(--font);
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:var(--mono-track);
+    text-transform:uppercase;
+    color:rgba(18,18,18,0.5);
+  }
+  .index-num{
+    font-family:var(--font-tight);
+    font-weight:900;
+    font-size:clamp(60px,9vw,120px);
+    line-height:0.85;
+    letter-spacing:-0.02em;
+    color:var(--grey);
+  }
+  h1{
+    font-family:var(--font-tight);
+    font-weight:900;
+    font-size:clamp(40px,6.2vw,92px);
+    line-height:0.98;
+    letter-spacing:-0.02em;
+  }
+  h2{
+    font-family:var(--font-tight);
+    font-weight:800;
+    font-size:clamp(28px,3.4vw,46px);
+    line-height:1.04;
+    letter-spacing:-0.015em;
+  }
+  h3{
+    font-family:var(--font-tight);
+    font-weight:700;
+    font-size:clamp(18px,1.8vw,24px);
+    line-height:1.2;
+  }
+  p{
+    font-size:clamp(14px,1.05vw,16.5px);
+    line-height:1.62;
+    font-weight:400;
+    color:rgba(18,18,18,0.86);
+    max-width: 62ch;
+  }
+  .dark p{ color:rgba(248,246,242,0.86); }
+  .accent p{ color:rgba(248,246,242,0.95); }
+  .lede{
+    font-size:clamp(17px,1.5vw,22px);
+    line-height:1.5;
+    font-weight:500;
+    max-width:52ch;
+  }
+  .label{
+    font-family:var(--font);
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:var(--mono-track);
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+  .dark .label, .accent .label{ color:var(--bg); }
+  .mono-tag{
+    font-family:var(--font);
+    font-size:10.5px;
+    font-weight:500;
+    letter-spacing:0.05em;
+    color:rgba(18,18,18,0.42);
+  }
+  .stat-num{
+    font-family:var(--font-tight);
+    font-weight:900;
+    font-size:clamp(44px,6vw,84px);
+    line-height:0.92;
+    letter-spacing:-0.02em;
+  }
+  .stat-cap{
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:rgba(18,18,18,0.55);
+    margin-top:8px;
+  }
+  .dark .stat-cap{ color:rgba(248,246,242,0.6); }
+
+  .hairline{ height:1px; width:100%; background:var(--grey-line); }
+  .vline{ width:1px; background:var(--grey-line); height:100%; }
+
+  ul.clean{ list-style:none; }
+  ul.clean li{
+    padding: 14px 0;
+    border-top:1px solid var(--grey-line);
+    display:grid;
+    grid-template-columns: 40px 1fr;
+    gap:14px;
+    align-items:baseline;
+  }
+  ul.clean li:last-child{ border-bottom:1px solid var(--grey-line); }
+  .dark ul.clean li{ border-color:rgba(248,246,242,0.18); }
+  ul.clean li .n{ font-family:var(--font-tight); font-weight:800; color:var(--accent); font-size:13px; }
+  ul.clean li .t{ font-weight:600; font-size:14.5px; }
+  ul.clean li .d{ font-weight:400; font-size:13.5px; color:rgba(18,18,18,0.65); grid-column:2; }
+  .dark ul.clean li .d{ color:rgba(248,246,242,0.65); }
+
+  .card{
+    border:1px solid var(--grey-line);
+    padding: 22px 24px;
+    background: rgba(18,18,18,0.02);
+  }
+  .dark .card{ border-color:rgba(248,246,242,0.2); background:rgba(248,246,242,0.03); }
+
+  .quote-mark{
+    font-family:var(--font-tight);
+    font-size:64px;
+    font-weight:900;
+    color:var(--accent);
+    line-height:0.5;
+  }
+  blockquote{
+    font-family:var(--font-tight);
+    font-weight:600;
+    font-size:clamp(19px,2.1vw,28px);
+    line-height:1.35;
+    letter-spacing:-0.01em;
+    max-width:48ch;
+  }
+
+  .corner-mark{
+    position:absolute;
+    bottom: clamp(20px,4vw,40px);
+    right: clamp(20px,6vw,72px);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    opacity:0.55;
+  }
+  .corner-mark svg{ width:34px; height:16px; }
+  .corner-mark .cm-label{
+    font-size:9px; letter-spacing:0.12em; text-transform:uppercase; font-weight:600;
+  }
+
+  .top-meta{
+    position:absolute;
+    top: clamp(20px,4vw,40px);
+    right: clamp(20px,6vw,72px);
+    text-align:right;
+  }
+
+  .divider-dots{ display:flex; gap:6px; align-items:center; }
+  .divider-dots span{ width:4px; height:4px; background:var(--grey); }
+  .divider-dots span.on{ background:var(--accent); }
+
+  /* progress rail */
+  #rail{
+    position:fixed;
+    left:0; top:0;
+    width:3px; height:100vh;
+    background:transparent;
+    z-index:50;
+  }
+  #rail-fill{
+    width:100%; height:0%;
+    background:var(--accent);
+    transition:height 0.08s linear;
+  }
+  #nav-index{
+    position:fixed;
+    left:18px; bottom:22px;
+    z-index:50;
+    font-family:var(--font-tight);
+    font-weight:800;
+    font-size:12px;
+    letter-spacing:0.05em;
+    color:var(--ink);
+    background:var(--bg);
+    border:1px solid var(--grey-line);
+    padding:6px 10px;
+    display:flex; gap:6px; align-items:center;
+  }
+  #nav-index .slash{ color:var(--grey); font-weight:500; }
+
+  .fade-in{ opacity:0; transform:translateY(14px); transition:opacity 0.7s ease, transform 0.7s ease; }
+  .fade-in.show{ opacity:1; transform:translateY(0); }
+
+  table.clean-table{ width:100%; border-collapse:collapse; }
+  table.clean-table th{
+    text-align:left; font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase;
+    font-weight:700; color:rgba(18,18,18,0.5); padding:0 0 10px 0; border-bottom:1px solid var(--ink);
+  }
+  table.clean-table td{
+    padding:12px 0; border-bottom:1px solid var(--grey-line); font-size:14px; font-weight:500;
+  }
+  .dark table.clean-table th{ color:rgba(248,246,242,0.55); border-color:var(--bg); }
+  .dark table.clean-table td{ border-color:rgba(248,246,242,0.18); }
+
+  @media (max-width: 640px){
+    #nav-index{ display:none; }
+    .top-meta{ position:static; text-align:left; margin-bottom:24px; }
+    .corner-mark{ position:static; margin-top:24px; opacity:0.4; }
+  }
+</style>
+</head>
+<body>
+
+<div id="rail"><div id="rail-fill"></div></div>
+<div id="nav-index"><span id="nav-current">00</span><span class="slash">/</span><span>13</span></div>
+
+<!-- ============ 00 · COVER ============ -->
+<section class="sheet dark center full" data-idx="0">
+  <div class="top-meta">
+    <div class="mono-tag" style="color:rgba(248,246,242,0.55)">NICOAMABILI.SUBSTACK.COM</div>
+    <div class="mono-tag" style="color:rgba(248,246,242,0.55)">22 SEP 2025 — CC BY 4.0</div>
+  </div>
+
+  <div class="span-2" style="grid-column:1/3;">
+    <div class="index-num" style="color:rgba(248,246,242,0.22)">00</div>
+  </div>
+
+  <div class="span-8" style="grid-column:2/12;">
+    <div class="eyebrow fade-in" style="color:rgba(248,246,242,0.55); margin-bottom:22px;">UN ANÁLISIS SOBRE EL LABERINTO DE LA PRODUCTIVIDAD ARGENTINA</div>
+    <h1 class="fade-in">(In)eficiencia,<br>captura y<br><span style="color:var(--accent);">reformismo.</span></h1>
+    <p class="lede fade-in" style="color:rgba(248,246,242,0.78); margin-top:28px;">Ni motosierras ni utopías: el verdadero desafío es reconstruir la racionalidad socio-productiva para impulsar un modelo de desarrollo.</p>
+  </div>
+
+  <div class="full hairline fade-in" style="background:rgba(248,246,242,0.18); margin-top:56px;"></div>
+  <div class="span-4 fade-in" style="margin-top:18px;">
+    <div class="mono-tag" style="color:rgba(248,246,242,0.55)">AUTOR</div>
+    <div style="font-weight:700; font-size:15px; margin-top:4px;">Nicolás Amábili</div>
+  </div>
+  <div class="span-4 fade-in" style="margin-top:18px;">
+    <div class="mono-tag" style="color:rgba(248,246,242,0.55)">TEMA</div>
+    <div style="font-weight:700; font-size:15px; margin-top:4px;">Productividad · Subsidios · Estado</div>
+  </div>
+  <div class="span-4 fade-in" style="margin-top:18px;">
+    <div class="mono-tag" style="color:rgba(248,246,242,0.55)">FORMATO</div>
+    <div style="font-weight:700; font-size:15px; margin-top:4px;">Resumen visual — 13 láminas</div>
+  </div>
+</section>
+
+<!-- ============ 01 · EL FENÓMENO ============ -->
+<section class="sheet full" data-idx="1">
+  <div class="span-4" style="grid-column:1/5;">
+    <div class="index-num fade-in">01</div>
+    <div class="label fade-in" style="margin-top:18px;">El fenómeno</div>
+    <h2 class="fade-in" style="margin-top:10px;">Una paradoja persistente.</h2>
+  </div>
+
+  <div class="span-7 fade-in" style="grid-column:6/13; align-self:center;">
+    <p style="margin-bottom:16px;">A pesar de fases de estabilización macro, apertura comercial y modernización institucional parcial, la <strong>Productividad Total de los Factores (PTF)</strong> de las economías latinoamericanas permanece crónicamente estancada — por debajo de las economías desarrolladas, y rezagada incluso frente a emergentes comparables.</p>
+    <p>El patrón observable: un crecimiento modular, intermitente y de baja calidad, apoyado en explotación extensiva de recursos antes que en tecnificación y enriquecimiento de las cadenas de valor.</p>
+  </div>
+
+  <div class="full hairline" style="margin-top:56px; margin-bottom:26px;"></div>
+
+  <div class="span-12 fade-in" style="grid-column:1/-1;">
+    <svg viewBox="0 0 1000 260" style="width:100%; height:auto; overflow:visible;" preserveAspectRatio="xMidYMid meet">
+      <line x1="40" y1="220" x2="960" y2="220" stroke="var(--grey-line)" stroke-width="1"/>
+      <path d="M 40 210 C 100 205, 140 60, 200 55 C 260 50, 290 190, 340 195 C 420 200, 460 130, 540 105 C 620 82, 680 90, 760 120 C 840 150, 900 195, 960 210"
+            fill="none" stroke="var(--ink)" stroke-width="2"/>
+      <path d="M 40 210 C 100 205, 140 60, 200 55 C 260 50, 290 190, 340 195 L 340 220 L 40 220 Z"
+            fill="var(--accent)" opacity="0.16"/>
+      <line x1="200" y1="55" x2="200" y2="220" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3 3"/>
+      <circle cx="200" cy="55" r="3.5" fill="var(--accent)"/>
+      <circle cx="540" cy="105" r="3.5" fill="var(--ink)"/>
+      <text x="200" y="40" font-family="Inter" font-size="11" font-weight="700" fill="var(--accent)" text-anchor="middle">FIRMAS DE BAJA PTF</text>
+      <text x="200" y="238" font-family="Inter" font-size="10" fill="rgba(18,18,18,0.5)" text-anchor="middle">cola izquierda pesada</text>
+      <text x="540" y="90" font-family="Inter" font-size="11" font-weight="700" fill="var(--ink)" text-anchor="middle">MASA CENTRAL DE FIRMAS</text>
+      <text x="900" y="238" font-family="Inter" font-size="10" fill="rgba(18,18,18,0.5)" text-anchor="end">alta productividad</text>
+      <text x="40" y="238" font-family="Inter" font-size="10" fill="rgba(18,18,18,0.5)" text-anchor="start">baja productividad</text>
+    </svg>
+    <div class="mono-tag" style="margin-top:10px;">FIG. 01 — Distribución estilizada de productividad del trabajo por firma · adaptado de Veloso (2021) al caso argentino</div>
+  </div>
+</section>
+
+<!-- ============ 02 · MARCO TEÓRICO ============ -->
+<section class="sheet dark full" data-idx="2">
+  <div class="span-4" style="grid-column:1/5;">
+    <div class="index-num fade-in" style="color:rgba(248,246,242,0.22)">02</div>
+    <div class="label fade-in" style="margin-top:18px;">Marco teórico</div>
+    <h2 class="fade-in" style="margin-top:10px;">Misallocation: el diagnóstico de Veloso.</h2>
+  </div>
+
+  <div class="span-7 fade-in" style="grid-column:6/13; align-self:center;">
+    <p style="margin-bottom:18px;">En <em>Productivity and Growth in Brazil</em> (2021), Fernando Veloso plantea que el estancamiento productivo no responde solo a shocks externos, sino a una <strong style="color:var(--accent);">asignación distorsionada de recursos</strong>: políticas públicas que, bajo un velo desarrollista, premian la ineficiencia y bloquean la competencia.</p>
+    <p>Brasil exhibe una dispersión inusual de productividad entre firmas, con una cola de baja productividad mucho más pesada que la de otros emergentes — evidencia de que recursos quedan atrapados en organizaciones poco eficientes.</p>
+  </div>
+
+  <div class="full hairline fade-in" style="background:rgba(248,246,242,0.18); margin-top:50px; margin-bottom:24px;"></div>
+
+  <div class="span-4 fade-in">
+    <div class="stat-num">2×</div>
+    <div class="stat-cap">Argentina agrega un agravante que Brasil no tiene</div>
+  </div>
+  <div class="span-8 fade-in" style="grid-column:5/13;">
+    <p>El Estado argentino no solo subsidia la supervivencia de agentes de baja productividad — también sostiene una estructura de beneficios a corporaciones ya rentables, eficientes y dominantes. Una red de incentivos regresiva y concentradora: un <strong>brete fiscal estructuralmente sedimentado.</strong></p>
+  </div>
+</section>
+
+<!-- ============ 03 · TRIPLE DISTORSIÓN — MAPA ============ -->
+<section class="sheet full" data-idx="3">
+  <div class="span-12" style="grid-column:1/-1;">
+    <div class="index-num fade-in">03</div>
+    <div class="label fade-in" style="margin-top:18px;">El framework</div>
+    <h2 class="fade-in" style="margin-top:10px; max-width:16ch;">La triple distorsión asignativa.</h2>
+  </div>
+
+  <div class="full hairline fade-in" style="margin-top:36px; margin-bottom:0;"></div>
+
+  <div class="span-4 fade-in card" style="grid-column:1/5; margin-top:-1px;">
+    <div class="mono-tag">01</div>
+    <h3 style="margin-top:10px;">Subsidio a la baja productividad</h3>
+    <div class="label" style="margin-top:8px;">THE ZOMBIES</div>
+    <p style="margin-top:10px; font-size:13.5px;">Tarifas artificialmente bajas y crédito blando sostienen firmas que en competencia normal saldrían del mercado.</p>
+  </div>
+  <div class="span-4 fade-in card" style="grid-column:5/9; margin-top:-1px; background:rgba(255,74,47,0.05); border-color:var(--accent);">
+    <div class="mono-tag" style="color:var(--accent);">02</div>
+    <h3 style="margin-top:10px;">Subsidio a la alta productividad</h3>
+    <div class="label" style="margin-top:8px;">THE STARS</div>
+    <p style="margin-top:10px; font-size:13.5px;">Exenciones fiscales a firmas ya eficientes (ej. Economía del Conocimiento) sin condicionalidad real de resultados.</p>
+  </div>
+  <div class="span-4 fade-in card" style="grid-column:9/13; margin-top:-1px;">
+    <div class="mono-tag">03</div>
+    <h3 style="margin-top:10px;">Subsidio a la dependencia</h3>
+    <div class="label" style="margin-top:8px;">RÉGIMEN TDF</div>
+    <p style="margin-top:10px; font-size:13.5px;">Enclaves industriales sin agregado de valor genuino, atrapados en dependencia fiscal permanente.</p>
+  </div>
+
+  <div class="full fade-in" style="grid-column:1/-1; margin-top:40px;">
+    <p class="lede">Tres lógicas distintas — supervivencia, aceleración y dependencia territorial — que convergen en el mismo resultado: <strong style="color:var(--accent);">drenaje sistemático de la productividad agregada.</strong></p>
+  </div>
+</section>
+
+<!-- ============ 04 · ZOMBIES ============ -->
+<section class="sheet full" data-idx="4">
+  <div class="span-5" style="grid-column:1/6;">
+    <div class="index-num fade-in">04</div>
+    <div class="label fade-in" style="margin-top:18px;">Distorsión 01 / The Zombies</div>
+    <h2 class="fade-in" style="margin-top:10px;">El subsidio a la baja productividad.</h2>
+    <p class="fade-in" style="margin-top:22px;">Una lógica principalmente socio-política, de supervivencia. Tarifas artificialmente bajas y créditos blandos no vinculados al desempeño actúan como un "impuesto negativo a la ineficiencia" (Friedman).</p>
+  </div>
+
+  <div class="vline fade-in" style="grid-column:7/8;"></div>
+
+  <div class="span-5 fade-in" style="grid-column:8/13; align-self:center;">
+    <ul class="clean">
+      <li><span class="n">→</span><span class="t">Inhibe la salida del mercado</span><span class="d">de firmas que en competencia normal desaparecerían.</span></li>
+      <li><span class="n">→</span><span class="t">Perpetúa la dispersión</span><span class="d">entre firmas eficientes e ineficientes.</span></li>
+      <li><span class="n">→</span><span class="t">Bloquea la destrucción creativa</span><span class="d">schumpeteriana — la reasignación hacia usos más productivos.</span></li>
+      <li><span class="n">→</span><span class="t">Consolida atraso tecnológico</span><span class="d">en amplios segmentos de PyMEs y cooperativas.</span></li>
+    </ul>
+
+    <div class="card fade-in" style="margin-top:18px; border-color:var(--accent); background:rgba(255,74,47,0.05);">
+      <div class="label">Subsidio Reactivo</div>
+      <p style="font-size:13.5px; margin-top:8px; max-width:none;">Asistencia de "apagar incendios": shocks fiscales de último momento sobre empresas y cooperativas en crisis crónica, para impedir cierres y despidos antes de que exploten en conflicto laboral de mayor escala. Sin planificación ni asesoramiento oficial previo, lo que empezó como respuesta coyuntural a firmas que llevan años surfeando altos niveles de volatilidad y crisis, se cristaliza en un <strong>drenaje fiscal estructural.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 · STARS + MELI vs GARRAHAN ============ -->
+<section class="sheet accent full" data-idx="5">
+  <div class="span-5" style="grid-column:1/6;">
+    <div class="index-num fade-in" style="color:rgba(248,246,242,0.35)">05</div>
+    <div class="label fade-in" style="margin-top:18px;">Distorsión 02 / The Stars</div>
+    <h2 class="fade-in" style="margin-top:10px;">El subsidio a la alta productividad.</h2>
+    <p class="fade-in" style="margin-top:22px;">Cuando el beneficio fiscal no está condicionado a resultados verificables — empleo calificado, inversión adicional, capacidades locales — deja de ser fomento y se convierte en pura transferencia de riqueza: <strong>rent-seeking.</strong></p>
+  </div>
+
+  <div class="span-6 fade-in" style="grid-column:7/13; align-self:center;">
+    <div class="mono-tag" style="color:rgba(248,246,242,0.7); margin-bottom:14px;">CASO — LEY DE ECONOMÍA DEL CONOCIMIENTO</div>
+    <svg viewBox="0 0 560 300" style="width:100%; height:auto;">
+      <!-- 2023 panel -->
+      <text x="0" y="20" font-family="Inter" font-size="11" font-weight="700" fill="#ffffff">2023</text>
+      <rect x="0" y="40" width="70" height="120" fill="rgba(255,255,255,0.9)"/>
+      <rect x="90" y="94" width="70" height="66" fill="rgba(255,255,255,0.45)"/>
+      <text x="35" y="34" font-family="Inter" font-size="10" fill="#ffffff" text-anchor="middle" font-weight="700">100%</text>
+      <text x="125" y="88" font-family="Inter" font-size="10" fill="#ffffff" text-anchor="middle" font-weight="700">49%</text>
+      <text x="35" y="178" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)" text-anchor="middle">Presup.</text>
+      <text x="35" y="190" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)" text-anchor="middle">Garrahan</text>
+      <text x="125" y="178" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)" text-anchor="middle">Beneficio</text>
+      <text x="125" y="190" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)" text-anchor="middle">fiscal MELI</text>
+
+      <line x1="220" y1="0" x2="220" y2="230" stroke="rgba(255,255,255,0.3)"/>
+
+      <!-- 2024 panel -->
+      <text x="260" y="20" font-family="Inter" font-size="11" font-weight="700" fill="#ffffff">2024</text>
+      <rect x="260" y="94" width="70" height="66" fill="rgba(255,255,255,0.45)" opacity="0.7"/>
+      <rect x="350" y="76" width="70" height="84" fill="rgba(255,255,255,0.5)"/>
+      <text x="295" y="88" font-family="Inter" font-size="10" fill="#ffffff" text-anchor="middle" font-weight="700">-54%</text>
+      <text x="385" y="70" font-family="Inter" font-size="10" fill="#ffffff" text-anchor="middle" font-weight="700">estable</text>
+      <text x="295" y="178" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)" text-anchor="middle">Presup. real</text>
+      <text x="295" y="190" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)" text-anchor="middle">Garrahan</text>
+      <text x="385" y="178" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)" text-anchor="middle">Beneficio</text>
+      <text x="385" y="190" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)" text-anchor="middle">fiscal MELI</text>
+
+      <line x1="0" y1="220" x2="560" y2="220" stroke="rgba(255,255,255,0.4)"/>
+    </svg>
+    <p style="font-size:13px; margin-top:12px; color:rgba(248,246,242,0.85);">En 2023, la prebenda fiscal a Mercado Libre bajo la LEC equivalió al <strong>49% del presupuesto anual del Hospital Garrahan</strong>. En 2024 el beneficio se mantuvo estable por encima de $30.000M, mientras el presupuesto real del Garrahan cayó 54% por prórroga presupuestaria e inflación.</p>
+  </div>
+</section>
+
+<!-- ============ 06 · DEPENDENCIA / TDF ============ -->
+<section class="sheet full" data-idx="6">
+  <div class="span-4" style="grid-column:1/5;">
+    <div class="index-num fade-in">06</div>
+    <div class="label fade-in" style="margin-top:18px;">Distorsión 03</div>
+    <h2 class="fade-in" style="margin-top:10px;">Subsidio a la dependencia.</h2>
+    <div class="mono-tag fade-in" style="margin-top:12px;">CASO — RÉGIMEN DE TIERRA DEL FUEGO, 1972—HOY</div>
+  </div>
+
+  <div class="span-7 fade-in" style="grid-column:6/13;">
+    <p style="margin-bottom:20px;">La Ley 19.640 nació con espíritu geopolítico: poblar, industrializar y consolidar soberanía. Medio siglo después, el régimen exhibe distorsiones estructurales que ponen en duda su potencia productiva.</p>
+    <div class="full hairline" style="margin-bottom:20px;"></div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+      <div>
+        <div class="stat-num" style="font-size:clamp(34px,4vw,52px);">0,5%</div>
+        <div class="stat-cap">del PBI anual en exenciones — equivalente al gasto nacional total en Ciencia y Tecnología</div>
+      </div>
+      <div>
+        <div class="stat-num" style="font-size:clamp(34px,4vw,52px);">Bajo</div>
+        <div class="stat-cap">componente nacional agregado — ensamblaje de productos importados sobre valor genuino</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="full hairline fade-in" style="margin-top:40px; margin-bottom:20px;"></div>
+
+  <div class="span-12 fade-in" style="grid-column:1/-1;">
+    <table class="clean-table">
+      <tr><th>Distorsión estructural</th><th>Efecto</th></tr>
+      <tr><td>Dependencia fiscal</td><td>~0,5% del PBI sostenido de forma permanente, sin condicionalidad de resultados</td></tr>
+      <tr><td>Estructura productiva débil</td><td>Ensamblaje de importados con agregado de valor marginal</td></tr>
+      <tr><td>Distorsión de precios internos</td><td>Protección arancelaria encarece electrónica para el consumidor nacional</td></tr>
+      <tr><td>Encadenamiento frágil</td><td>Enclave aislado, sin sinergia con el resto del entramado productivo</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 07 · ZAOURAK / RENT-SEEKING ============ -->
+<section class="sheet dark center full" data-idx="7">
+  <div class="span-8 fade-in" style="grid-column:2/12;">
+    <div class="index-num fade-in" style="color:rgba(248,246,242,0.22); margin-bottom:20px;">07</div>
+    <div class="quote-mark">"</div>
+    <blockquote>Las actividades de <span style="color:var(--accent);">rent-seeking</span> y la captura institucional desvían recursos hacia firmas menos productivas y alejan recursos de la innovación, minando el crecimiento de la productividad agregada.</blockquote>
+    <div class="mono-tag" style="color:rgba(248,246,242,0.5); margin-top:22px;">GABRIEL ZAOURAK — RENT-SEEKING ACTIVITIES, MISALLOCATION AND INNOVATION IN ARGENTINA · WORLD BANK, 2020</div>
+    <div class="full hairline" style="background:rgba(248,246,242,0.18); margin-top:34px; margin-bottom:22px;"></div>
+    <p style="color:rgba(248,246,242,0.78); max-width:56ch;">Cuando el retorno de un soborno o una campaña de lobby es más rápido y seguro que el de un proyecto de I+D, cualquier gerente racional deja de innovar. La empresa <strong style="color:var(--bg);">compra rentabilidad</strong> en lugar de <strong style="color:var(--bg);">crear valor.</strong></p>
+  </div>
+</section>
+
+<!-- ============ 08 · REFORMISMO 2025 ============ -->
+<section class="sheet full" data-idx="8">
+  <div class="span-4" style="grid-column:1/5;">
+    <div class="index-num fade-in">08</div>
+    <div class="label fade-in" style="margin-top:18px;">Coyuntura</div>
+    <h2 class="fade-in" style="margin-top:10px;">Reformismo en el aire.</h2>
+  </div>
+  <div class="span-7 fade-in" style="grid-column:6/13; align-self:center;">
+    <p style="margin-bottom:16px;">Tras el resultado electoral del 26/10/25, el gobierno libertario avanza con reformas — empezando por la laboral — apoyadas en un discurso donde "el Estado" es señalado como el principal obstáculo al crecimiento.</p>
+    <p>La metáfora de la motosierra perdió brillo con el reacomodamiento del voto de los sectores altos hacia LLA en 2025: buena parte del electorado que la subió al poder en 2023 espera algo más que motosierrazos para la segunda mitad de la gestión.</p>
+  </div>
+  <div class="full hairline fade-in" style="margin-top:44px; margin-bottom:24px;"></div>
+  <div class="span-12 fade-in card" style="grid-column:1/-1; border-left:3px solid var(--accent);">
+    <p class="lede" style="max-width:none;">Reforma estructural ≠ ajuste fiscal a secas. Una verdadera reforma es <strong>reingeniería institucional democrática</strong>, orientada a la eficiencia sistémica y encuadrada en un pacto político que trascienda los ciclos electorales.</p>
+  </div>
+</section>
+
+<!-- ============ 09 · EVIDENCIA LABORAL ============ -->
+<section class="sheet full" data-idx="9">
+  <div class="span-12" style="grid-column:1/-1;">
+    <div class="index-num fade-in">09</div>
+    <div class="label fade-in" style="margin-top:18px;">Contra-evidencia</div>
+    <h2 class="fade-in" style="margin-top:10px; max-width:22ch;">¿Bajar costos laborales crea empleo?</h2>
+    <p class="fade-in" style="margin-top:16px; max-width:60ch;">Entre dic-23 y la actualidad, el gasto salarial real de las empresas cayó — y sin embargo se destruyó empleo formal. La pieza que falta no es el costo laboral: es el estímulo a la demanda agregada.</p>
+  </div>
+
+  <div class="full hairline fade-in" style="margin-top:36px; margin-bottom:28px;"></div>
+
+  <div class="span-7 fade-in" style="grid-column:1/8;">
+    <div class="mono-tag" style="margin-bottom:10px;">FIG. 02 — SALARIO FORMAL REAL · BASE 100 = NOV-23 · FUENTE: EQUILIBRA</div>
+    <svg viewBox="0 0 560 220" style="width:100%; height:auto;">
+      <line x1="0" y1="180" x2="560" y2="180" stroke="var(--grey-line)"/>
+      <line x1="0" y1="0" x2="0" y2="180" stroke="var(--grey-line)"/>
+      <text x="0" y="196" font-family="Inter" font-size="9" fill="rgba(18,18,18,0.5)">NOV-23</text>
+      <text x="540" y="196" font-family="Inter" font-size="9" fill="rgba(18,18,18,0.5)" text-anchor="end">ACTUALIDAD</text>
+      <line x1="0" y1="60" x2="560" y2="60" stroke="var(--grey-line)" stroke-dasharray="2 4"/>
+      <text x="0" y="55" font-family="Inter" font-size="9" fill="rgba(18,18,18,0.45)">100</text>
+      <path d="M 0 60 C 60 95, 100 150, 150 155 C 220 162, 280 150, 340 132 C 420 108, 480 100, 560 96"
+            fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+      <circle cx="0" cy="60" r="4" fill="var(--ink)"/>
+      <circle cx="560" cy="96" r="4" fill="var(--accent)"/>
+      <text x="560" y="86" font-family="Inter" font-size="10" font-weight="700" fill="var(--accent)" text-anchor="end">recuperación parcial, sin cerrar la brecha</text>
+    </svg>
+    <div class="mono-tag" style="margin-top:8px; color:rgba(18,18,18,0.4);">Tendencia estilizada a partir de la fuente citada — caída inicial y recuperación parcial sin recomponer el poder de compra pre-2023.</div>
+  </div>
+
+  <div class="vline fade-in" style="grid-column:8/9;"></div>
+
+  <div class="span-4 fade-in" style="grid-column:9/13;">
+    <div class="mono-tag" style="margin-bottom:10px;">FIG. 03 — TASA DE DESOCUPACIÓN · INDEC</div>
+    <svg viewBox="0 0 260 220" style="width:100%; height:auto;">
+      <line x1="20" y1="180" x2="240" y2="180" stroke="var(--ink)"/>
+      <rect x="50" y="112" width="52" height="68" fill="var(--grey)"/>
+      <rect x="150" y="86" width="52" height="94" fill="var(--accent)"/>
+      <text x="76" y="102" font-family="Inter" font-size="14" font-weight="800" fill="var(--ink)" text-anchor="middle">5,7%</text>
+      <text x="176" y="76" font-family="Inter" font-size="14" font-weight="800" fill="var(--accent)" text-anchor="middle">7,6%</text>
+      <text x="76" y="196" font-family="Inter" font-size="9" fill="rgba(18,18,18,0.55)" text-anchor="middle">DIC 2023</text>
+      <text x="176" y="196" font-family="Inter" font-size="9" fill="rgba(18,18,18,0.55)" text-anchor="middle">ÚLTIMO DATO</text>
+    </svg>
+    <p style="font-size:13px; margin-top:8px;">Con menor gasto salarial real, la desocupación <strong>subió</strong>, no bajó. La correlación esperada por el discurso oficial no se verifica en los datos.</p>
+  </div>
+</section>
+
+<!-- ============ 10 · BENCHMARKS INTERNACIONALES ============ -->
+<section class="sheet dark full" data-idx="10">
+  <div class="span-4" style="grid-column:1/5;">
+    <div class="index-num fade-in" style="color:rgba(248,246,242,0.22)">10</div>
+    <div class="label fade-in" style="margin-top:18px;">Contraste internacional</div>
+    <h2 class="fade-in" style="margin-top:10px;">Acompañar la reconversión, no la inercia.</h2>
+  </div>
+
+  <div class="span-3 fade-in" style="grid-column:6/9;">
+    <div class="mono-tag" style="color:var(--accent); margin-bottom:8px;">ALEMANIA · 2020</div>
+    <h3>Lufthansa</h3>
+    <p style="font-size:13.5px; margin-top:8px;">Capitalización temporaria condicionada: sin dividendos, límite a salarios gerenciales, 20% de participación estatal. Salida planificada con ganancia para el erario antes de 2023.</p>
+  </div>
+  <div class="span-3 fade-in" style="grid-column:9/12;">
+    <div class="mono-tag" style="color:var(--accent); margin-bottom:8px;">JAPÓN · DESDE 1954</div>
+    <h3>JICA</h3>
+    <p style="font-size:13.5px; margin-top:8px;">Asistencia técnica y financiera coordinada a más de 3,3 millones de PyMEs para potenciar competitividad y crecimiento.</p>
+  </div>
+
+  <div class="full hairline fade-in" style="background:rgba(248,246,242,0.18); margin-top:36px; margin-bottom:22px;"></div>
+
+  <div class="span-8 fade-in" style="grid-column:1/9;">
+    <div class="mono-tag" style="color:var(--accent); margin-bottom:8px;">ALEMANIA · FRAUNHOFER-GESELLSCHAFT</div>
+    <p>Institutos que colaboran directamente con PyMEs en la adopción de IA y digitalización de procesos — modernización acompañada, no subsidio a la inercia.</p>
+  </div>
+  <div class="span-4 fade-in" style="grid-column:9/13; align-self:end;">
+    <p style="font-size:13px; color:rgba(248,246,242,0.6); font-style:italic;">"Solo ordenará la macro; la micro se va a arreglar sola, o si no que se reconvierta o se funda." — contraste directo con estos casos.</p>
+  </div>
+</section>
+
+<!-- ============ 11 · AGENDA DE REFORMAS ============ -->
+<section class="sheet full" data-idx="11">
+  <div class="span-12" style="grid-column:1/-1;">
+    <div class="index-num fade-in">11</div>
+    <div class="label fade-in" style="margin-top:18px;">Propuesta</div>
+    <h2 class="fade-in" style="margin-top:10px;">Una agenda de reformas con sentido estratégico.</h2>
+  </div>
+
+  <div class="full hairline fade-in" style="margin-top:32px;"></div>
+
+  <div class="span-12 fade-in" style="grid-column:1/-1;">
+    <ul class="clean">
+      <li><span class="n">01</span><span class="t">Reforma fiscal pro-productividad</span><span class="d">Condicionar exenciones a evidencia verificable: I+D, empleo formal neto, mejoras de productividad.</span></li>
+      <li><span class="n">02</span><span class="t">Reforma laboral moderna</span><span class="d">Flexibilidad con piso sólido de derechos — sin habilitar precarización de facto ni gatillo fácil contra el empleo.</span></li>
+      <li><span class="n">03</span><span class="t">Reforma agro-productiva</span><span class="d">De caja fiscal a motor de innovación: biotecnología, digitalización rural, cadenas de alta sofisticación.</span></li>
+      <li><span class="n">04</span><span class="t">Reforma institucional de la competencia</span><span class="d">Subsidios y contratos públicos como catalizadores de productividad, no de privilegio.</span></li>
+      <li><span class="n">05</span><span class="t">Reforma previsional de raíz</span><span class="d">Integrar trabajadores informales sin deteriorar derechos adquiridos, durante el bono demográfico (hasta 2040/45).</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 12 · MATIZ EFICIENCIA / EQUIDAD ============ -->
+<section class="sheet accent full" data-idx="12">
+  <div class="span-5 fade-in" style="grid-column:1/6; align-self:center;">
+    <div class="index-num fade-in" style="color:rgba(248,246,242,0.35)">12</div>
+    <div class="label fade-in" style="margin-top:18px;">El matiz indispensable</div>
+    <h2 class="fade-in" style="margin-top:10px;">No toda ineficiencia es disfuncional.</h2>
+  </div>
+  <div class="span-6 fade-in" style="grid-column:7/13; align-self:center;">
+    <p style="margin-bottom:14px;">En economías con fallas estructurales profundas, cierta "ineficiencia" cumple el rol de <strong>buffer humanitario</strong>: empleos que de otro modo desaparecerían, acceso universal a salud y educación, derechos mínimos civilizatorios.</p>
+    <p>La tarea no es erradicar la ineficiencia como si fuera un virus tecnocrático — es distinguir la que sostiene derechos elementales de la que simplemente sedimenta privilegios improductivos.</p>
+  </div>
+</section>
+
+<!-- ============ 13 · CONCLUSIÓN + COLOFÓN ============ -->
+<section class="sheet dark full" data-idx="13">
+  <div class="span-12" style="grid-column:1/-1;">
+    <div class="index-num fade-in" style="color:rgba(248,246,242,0.22)">13</div>
+    <div class="label fade-in" style="margin-top:18px;">Conclusión</div>
+    <h2 class="fade-in" style="margin-top:10px; max-width:20ch;">Un Estado que intervenga mejor, no necesariamente menos.</h2>
+  </div>
+
+  <div class="span-7 fade-in" style="grid-column:1/8; margin-top:28px;">
+    <p style="color:rgba(248,246,242,0.82);">La triple misallocation —zombis subsidiados, estrellas que capturan sin necesitarlo, y regímenes territorialmente dependientes— profundiza el estancamiento de la PTF y exige realinear los incentivos fiscales con la productividad y la sostenibilidad de largo plazo.</p>
+    <p style="color:rgba(248,246,242,0.82); margin-top:14px;">Necesitamos crecimiento económico orgánico, transversal y sostenible — no distorsivo, concentrado e intermitente.</p>
+  </div>
+
+  <div class="full hairline fade-in" style="background:rgba(248,246,242,0.18); margin-top:44px; margin-bottom:24px;"></div>
+
+  <div class="span-4 fade-in">
+    <div class="mono-tag" style="color:rgba(248,246,242,0.5);">REFERENCIAS</div>
+    <p style="font-size:12px; color:rgba(248,246,242,0.6); margin-top:10px; line-height:1.7;">
+      Barbosa Filho &amp; Corrêa (2017), <em>Anatomia da Produtividade no Brasil.</em><br>
+      Veloso, F. (2021), <em>Productivity and Growth in Brazil.</em><br>
+      Zaourak, G. (2020), <em>Rent-Seeking Activities, Misallocation, and Innovation in Argentina.</em> World Bank WP 9293.
+    </p>
+  </div>
+  <div class="span-4 fade-in" style="grid-column:5/9;">
+    <div class="mono-tag" style="color:rgba(248,246,242,0.5);">AUTOR</div>
+    <p style="font-size:12px; color:rgba(248,246,242,0.6); margin-top:10px;">Nicolás Amábili<br>nicoamabili.substack.com</p>
+  </div>
+  <div class="span-4 fade-in" style="grid-column:9/13;">
+    <div class="mono-tag" style="color:rgba(248,246,242,0.5);">LICENCIA</div>
+    <p style="font-size:12px; color:rgba(248,246,242,0.6); margin-top:10px;">© 2025 — CC BY 4.0 International<br>creativecommons.org/licenses/by/4.0</p>
+  </div>
+</section>
+
+
+<script>
+  // scroll progress + section index
+  const sheets = () => Array.from(document.querySelectorAll('.sheet'));
+  const railFill = document.getElementById('rail-fill');
+  const navCurrent = document.getElementById('nav-current');
+
+  function onScroll(){
+    const doc = document.documentElement;
+    const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+    railFill.style.height = Math.min(100, Math.max(0, scrolled*100)) + '%';
+
+    const list = sheets();
+    let current = 0;
+    list.forEach((s, i) => {
+      const r = s.getBoundingClientRect();
+      if (r.top < window.innerHeight*0.5) current = i;
+    });
+    navCurrent.textContent = String(current).padStart(2,'0');
+  }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('load', onScroll);
+
+  // fade-in observer
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); } });
+  }, { threshold:0.15 });
+  document.addEventListener('DOMContentLoaded', ()=>{
+    document.querySelectorAll('.fade-in').forEach(el=>io.observe(el));
+
+    // signature corner mark — recurring distortion-curve glyph, one per sheet
+    const markSVG = `<svg viewBox="0 0 40 16" fill="none"><path d="M1 13C6 13 8 3 13 3C17 3 18 11 22 11C27 11 30 4 39 4" stroke="currentColor" stroke-width="1.6"/></svg>`;
+    sheets().forEach((s, i)=>{
+      const mark = document.createElement('div');
+      mark.className = 'corner-mark';
+      mark.innerHTML = markSVG + '<span class="cm-label">AMÁBILI · MISALLOCATION · 2025</span>';
+      s.appendChild(mark);
+    });
+  });
+</script>
+</body>
+</html>
